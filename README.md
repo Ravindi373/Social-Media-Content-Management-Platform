@@ -40,9 +40,14 @@ Each has its own README with full setup instructions. Quick start below.
 
 ## Project documents
 
-If you're including the system design document and wireframes in this repo
-too, a `docs/` folder alongside `frontend/` and `backend/` is a reasonable
-place for `SMCMP_System_Design.md` and `SMCMP_Wireframes.html`.
+`docs/SMCMP_System_Design.md` — ERD, role permissions matrix, page list, and
+approval workflow.
+
+`docs/SMCMP_Wireframes.html` — clickable wireframe prototype of all 10 pages.
+Open it directly in a browser (double-click, or a local static server). If
+you publish it via GitHub Pages, the URL must include the filename, e.g.
+`https://yourname.github.io/repo/docs/SMCMP_Wireframes.html`, since it isn't
+named `index.html`.
 
 ## Repo structure
 
@@ -50,5 +55,7 @@ place for `SMCMP_System_Design.md` and `SMCMP_Wireframes.html`.
 smcmp/
   backend/     Express API — models, controllers, routes, seed script
   frontend/    React app — pages, routing by role, API client
+  docs/        System design doc + wireframe prototype
+  .nojekyll    Disables Jekyll processing if you enable GitHub Pages
   README.md    You are here
 ```

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SMCMP — Wireframes / UI Mockups — Serene Bay Resort &amp; Kitchen</title>
+<style>
+  :root{
+    --bg:#F6F1E7;
+    --paper:#FFFFFF;
+    --ink:#232823;
+    --muted:#847F6C;
+    --border:#E2DCC9;
+    --primary:#2F4438;
+    --primary-dark:#20302A;
+    --primary-tint:#E7ECE6;
+    --accent:#A85C2C;
+    --accent-tint:#F3E4D6;
+    --gold:#C7973E;
+    --danger:#B5432E;
+    --danger-tint:#F6E4E0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-size:14px;
+    line-height:1.5;
+  }
+  h1,h2,h3,.serif{
+    font-family:Georgia,"Iowan Old Style","Palatino Linotype",serif;
+    font-weight:400;
+    margin:0;
+  }
+  .placeholder-img{
+    background:repeating-linear-gradient(45deg,#EDE7D8,#EDE7D8 8px,#E2DABF 8px,#E2DABF 16px);
+    border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--muted);font-size:12px;
+  }
+  button{font-family:inherit;cursor:pointer;}
+  input,select,textarea{font-family:inherit;font-size:14px;}
+
+  /* ---- Login screen ---- */
+  #login-screen{
+    min-height:100vh;
+    display:flex;align-items:center;justify-content:center;
+    padding:40px 20px;
+  }
+  .login-card{
+    width:100%;max-width:380px;
+    background:var(--paper);
+    border:1px solid var(--border);
+    border-radius:4px;
+    padding:40px 36px;
+  }
+  .brand-mark{
+    display:flex;align-items:baseline;gap:10px;margin-bottom:32px;
+  }
+  .brand-mark .dot{width:10px;height:10px;background:var(--accent);border-radius:50%;display:inline-block;}
+  .brand-mark span{font-size:13px;letter-spacing:.02em;color:var(--muted);}
+  .login-card h1{font-size:24px;margin-bottom:6px;}
+  .login-card p.sub{color:var(--muted);margin:0 0 28px;font-size:13px;}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .field input{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:3px;background:var(--bg);}
+  .btn-primary{
+    width:100%;padding:11px;background:var(--primary);color:#fff;border:none;border-radius:3px;
+    font-size:14px;margin-top:8px;
+  }
+  .btn-primary:hover{background:var(--primary-dark);}
+  .login-foot{margin-top:20px;font-size:12px;color:var(--muted);text-align:center;}
+
+  /* ---- App shell ---- */
+  #app-shell{display:none;min-height:100vh;grid-template-columns:230px 1fr;}
+  #app-shell.active{display:grid;}
+  aside{
+    background:var(--primary-dark);color:#E9E4D4;
+    padding:22px 16px;
+  }
+  aside .brand-mark span{color:#B9C4BA;}
+  aside .brand-mark .dot{background:var(--gold);}
+  .role-switch{
+    margin:22px 0 18px;padding:10px 12px;background:rgba(255,255,255,.06);border-radius:3px;
+  }
+  .role-switch label{display:block;font-size:11px;color:#B9C4BA;margin-bottom:6px;}
+  .role-switch select{
+    width:100%;padding:6px 8px;background:var(--primary);color:#fff;border:1px solid rgba(255,255,255,.2);
+    border-radius:3px;
+  }
+  nav.pages{display:flex;flex-direction:column;gap:2px;}
+  nav.pages button{
+    text-align:left;background:none;border:none;color:#CBD3C9;padding:9px 10px;border-radius:3px;font-size:13px;
+  }
+  nav.pages button:hover{background:rgba(255,255,255,.06);}
+  nav.pages button.active{background:var(--primary);color:#fff;}
+  nav.pages button.hidden{display:none;}
+  .signout{margin-top:24px;padding-top:16px;border-top:1px solid rgba(255,255,255,.12);}
+  .signout button{background:none;border:none;color:#B9C4BA;font-size:12px;padding:0;}
+
+  main{padding:28px 36px 60px;max-width:1000px;}
+  .page-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:8px;}
+  .page-head h1{font-size:22px;}
+  .badge{
+    font-size:11px;color:var(--muted);border:1px solid var(--border);padding:3px 9px;border-radius:20px;
+  }
+  .page{display:none;}
+  .page.active{display:block;}
+
+  /* generic cards / tables */
+  .card{background:var(--paper);border:1px solid var(--border);border-radius:4px;padding:20px;}
+  .grid{display:grid;gap:16px;}
+  .cols-3{grid-template-columns:repeat(3,1fr);}
+  .cols-4{grid-template-columns:repeat(4,1fr);}
+  .stat-card{background:var(--paper);border:1px solid var(--border);border-radius:4px;padding:16px 18px;}
+  .stat-card .num{font-family:Georgia,serif;font-size:26px;}
+  .stat-card .label{font-size:12px;color:var(--muted);margin-top:2px;}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th{text-align:left;font-size:11px;color:var(--muted);font-weight:400;padding:8px 10px;border-bottom:1px solid var(--border);}
+  td{padding:10px 10px;border-bottom:1px solid var(--border);vertical-align:middle;}
+  .pill{font-size:11px;padding:3px 9px;border-radius:20px;display:inline-block;}
+  .pill.draft{background:var(--primary-tint);color:var(--primary);}
+  .pill.scheduled{background:var(--accent-tint);color:var(--accent);}
+  .pill.published{background:#E5EEE7;color:#2F6B45;}
+  .pill.pending{background:#F5EAD2;color:#8A6512;}
+  .pill.rejected{background:var(--danger-tint);color:var(--danger);}
+  .btn-sm{font-size:12px;padding:6px 12px;border-radius:3px;border:1px solid var(--border);background:var(--paper);}
+  .btn-sm.solid{background:var(--primary);color:#fff;border-color:var(--primary);}
+  .btn-sm.outline-danger{color:var(--danger);border-color:var(--danger);background:var(--danger-tint);}
+  .section-title{font-size:13px;color:var(--muted);margin:26px 0 10px;text-transform:none;}
+  .section-title:first-child{margin-top:0;}
+  .tag{font-size:12px;background:var(--primary-tint);color:var(--primary);padding:4px 10px;border-radius:20px;}
+  .row-flex{display:flex;gap:8px;flex-wrap:wrap;}
+
+  /* Create post */
+  .form-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;}
+  .dropzone{
+    border:1.5px dashed var(--border);border-radius:4px;height:150px;
+    display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;
+    background:var(--paper);
+  }
+  textarea{width:100%;border:1px solid var(--border);border-radius:3px;padding:10px;background:var(--paper);resize:vertical;}
+  .checkbox-row{display:flex;align-items:center;gap:8px;padding:7px 0;}
+  .checkbox-row input{width:15px;height:15px;}
+
+  /* Calendar */
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+  .cal-cell{background:var(--paper);min-height:76px;padding:6px;font-size:11px;color:var(--muted);}
+  .cal-cell .d{color:var(--ink);font-size:12px;margin-bottom:4px;}
+  .cal-chip{background:var(--accent-tint);color:var(--accent);border-radius:3px;padding:2px 5px;margin-top:3px;font-size:10px;display:block;}
+  .cal-chip.pub{background:#E5EEE7;color:#2F6B45;}
+
+  /* Analytics bars */
+  .bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .bar-row .platform{width:78px;font-size:12px;color:var(--muted);}
+  .bar-track{flex:1;background:var(--primary-tint);height:12px;border-radius:2px;overflow:hidden;}
+  .bar-fill{background:var(--primary);height:100%;}
+  .bar-row .val{width:48px;font-size:12px;text-align:right;}
+
+  .persona{display:flex;gap:12px;align-items:flex-start;}
+  .persona .avatar{width:44px;height:44px;border-radius:50%;flex-shrink:0;}
+
+  .flow{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);flex-wrap:wrap;margin-bottom:20px;}
+  .flow .step{padding:5px 11px;border:1px solid var(--border);border-radius:20px;color:var(--ink);}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="brand-mark"><span class="dot"></span><span>SERENE BAY &nbsp;RESORT &amp; KITCHEN</span></div>
+    <h1>Sign in</h1>
+    <p class="sub">Social media content management</p>
+    <div class="field"><label>Email</label><input type="text" value="m.perera@serenebay.com" readonly></div>
+    <div class="field"><label>Password</label><input type="password" value="••••••••••" readonly></div>
+    <button class="btn-primary" onclick="enterApp()">Sign in</button>
+    <p class="login-foot">Wireframe — role is selected inside the app for demo purposes</p>
+  </div>
+</div>
+
+<!-- ============ APP SHELL ============ -->
+<div id="app-shell">
+  <aside>
+    <div class="brand-mark"><span class="dot"></span><span>SERENE BAY</span></div>
+    <div class="role-switch">
+      <label>Viewing as</label>
+      <select id="roleSelect" onchange="setRole(this.value)">
+        <option value="admin">Administrator</option>
+        <option value="creator">Content Creator</option>
+        <option value="approver">Content Approver</option>
+      </select>
+    </div>
+    <nav class="pages">
+      <button data-page="dashboard" data-roles="admin,creator,approver" onclick="showPage('dashboard')">Dashboard</button>
+      <button data-page="create" data-roles="admin,creator" onclick="showPage('create')">Create / edit post</button>
+      <button data-page="calendar" data-roles="admin,creator" onclick="showPage('calendar')">Content calendar</button>
+      <button data-page="approvals" data-roles="admin,approver" onclick="showPage('approvals')">Approval queue</button>
+      <button data-page="campaigns" data-roles="admin,creator,approver" onclick="showPage('campaigns')">Campaigns</button>
+      <button data-page="analytics" data-roles="admin,creator,approver" onclick="showPage('analytics')">Analytics</button>
+      <button data-page="strategy" data-roles="admin,creator,approver" onclick="showPage('strategy')">Strategy</button>
+      <button data-page="privacy" data-roles="admin,creator,approver" onclick="showPage('privacy')">Privacy &amp; compliance</button>
+      <button data-page="users" data-roles="admin" onclick="showPage('users')">User management</button>
+    </nav>
+    <div class="signout"><button onclick="location.reload()">Sign out</button></div>
+  </aside>
+
+  <main>
+
+    <!-- 1. DASHBOARD -->
+    <section class="page" id="page-dashboard">
+      <div class="page-head"><h1>Dashboard</h1><span class="badge" id="dashRoleBadge">Administrator</span></div>
+      <div class="grid cols-4" style="margin-bottom:24px;">
+        <div class="stat-card"><div class="num">6</div><div class="label">Scheduled posts</div></div>
+        <div class="stat-card"><div class="num">42</div><div class="label">Published posts</div></div>
+        <div class="stat-card"><div class="num">5</div><div class="label">Drafts</div></div>
+        <div class="stat-card"><div class="num">3</div><div class="label">Pending approval</div></div>
+      </div>
+      <div class="section-title">Recent activity</div>
+      <div class="card">
+        <table>
+          <tr><th>Post</th><th>Platform</th><th>Status</th><th>Date</th></tr>
+          <tr><td>Weekend seafood buffet</td><td>Instagram</td><td><span class="pill scheduled">Scheduled</span></td><td>2 Sep</td></tr>
+          <tr><td>Deluxe suite, ocean view</td><td>Facebook</td><td><span class="pill published">Published</span></td><td>29 Aug</td></tr>
+          <tr><td>Chef's tasting menu</td><td>Instagram, TikTok</td><td><span class="pill pending">Pending approval</span></td><td>—</td></tr>
+          <tr><td>Festive season package</td><td>Facebook</td><td><span class="pill draft">Draft</span></td><td>—</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- 2. CREATE / EDIT POST -->
+    <section class="page" id="page-create">
+      <div class="page-head"><h1>Create post</h1><span class="badge">Draft — unsaved</span></div>
+      <div class="form-grid">
+        <div class="card">
+          <div class="section-title" style="margin-top:0;">Caption</div>
+          <textarea rows="4">Sunday brunch just got better — our new seafood spread is live from 12pm, right by the water. Book a table before it fills up.</textarea>
+          <div class="section-title">Image</div>
+          <div class="dropzone">Drop image or browse — serene-bay-brunch.jpg</div>
+          <div class="section-title">Hashtags</div>
+          <div class="row-flex"><span class="tag">#SereneBay</span><span class="tag">#SundayBrunch</span><span class="tag">#OceanDining</span><span class="tag">+ add</span></div>
+        </div>
+        <div class="card">
+          <div class="section-title" style="margin-top:0;">Target platforms</div>
+          <div class="checkbox-row"><input type="checkbox" checked><label>Instagram</label></div>
+          <div class="checkbox-row"><input type="checkbox" checked><label>Facebook</label></div>
+          <div class="checkbox-row"><input type="checkbox"><label>TikTok</label></div>
+          <div class="checkbox-row"><input type="checkbox"><label>X</label></div>
+          <div class="section-title">Campaign</div>
+          <select style="width:100%;padding:8px;border:1px solid var(--border);border-radius:3px;">
+            <option>Weekend Dining Awareness</option>
+          </select>
+          <div style="margin-top:20px;display:flex;gap:8px;">
+            <button class="btn-sm">Save as draft</button>
+            <button class="btn-sm solid">Submit for approval</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. CALENDAR -->
+    <section class="page" id="page-calendar">
+      <div class="page-head"><h1>Content calendar</h1><span class="badge">September 2026</span></div>
+      <div class="cal-grid">
+        <div class="cal-cell" style="background:var(--primary-tint);font-size:11px;color:var(--primary);">Mon</div>
+        <div class="cal-cell" style="background:var(--primary-tint);font-size:11px;color:var(--primary);">Tue</div>
+        <div class="cal-cell" style="background:var(--primary-tint);font-size:11px;color:var(--primary);">Wed</div>
+        <div class="cal-cell" style="background:var(--primary-tint);font-size:11px;color:var(--primary);">Thu</div>
+        <div class="cal-cell" style="background:var(--primary-tint);font-size:11px;color:var(--primary);">Fri</div>
+        <div class="cal-cell" style="background:var(--primary-tint);font-size:11px;color:var(--primary);">Sat</div>
+        <div class="cal-cell" style="background:var(--primary-tint);font-size:11px;color:var(--primary);">Sun</div>
+        <div class="cal-cell"><div class="d">1</div></div>
+        <div class="cal-cell"><div class="d">2</div><span class="cal-chip">Seafood buffet</span></div>
+        <div class="cal-cell"><div class="d">3</div></div>
+        <div class="cal-cell"><div class="d">4</div><span class="cal-chip pub">Suite launch</span></div>
+        <div class="cal-cell"><div class="d">5</div></div>
+        <div class="cal-cell"><div class="d">6</div><span class="cal-chip">Chef special</span></div>
+        <div class="cal-cell"><div class="d">7</div></div>
+      </div>
+    </section>
+
+    <!-- 4. APPROVAL QUEUE -->
+    <section class="page" id="page-approvals">
+      <div class="page-head"><h1>Approval queue</h1><span class="badge">3 pending</span></div>
+      <div class="card" style="margin-bottom:14px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div>
+            <strong>Chef's tasting menu launch</strong>
+            <p style="color:var(--muted);margin:4px 0 0;max-width:520px;">Seven courses, one story. Our new tasting menu debuts this Friday — booking opens now.</p>
+            <div class="row-flex" style="margin-top:8px;"><span class="tag">Instagram</span><span class="tag">TikTok</span></div>
+          </div>
+          <div class="row-flex">
+            <button class="btn-sm outline-danger">Reject</button>
+            <button class="btn-sm solid">Approve</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div>
+            <strong>Festive season package</strong>
+            <p style="color:var(--muted);margin:4px 0 0;max-width:520px;">Three nights, breakfast included, one unforgettable New Year's Eve dinner.</p>
+            <div class="row-flex" style="margin-top:8px;"><span class="tag">Facebook</span></div>
+          </div>
+          <div class="row-flex">
+            <button class="btn-sm outline-danger">Reject</button>
+            <button class="btn-sm solid">Approve</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. CAMPAIGNS -->
+    <section class="page" id="page-campaigns">
+      <div class="page-head">
+        <h1>Campaigns</h1>
+        <button class="btn-sm solid" id="newCampaignBtn">+ New campaign</button>
+      </div>
+      <div class="grid cols-3">
+        <div class="card">
+          <div class="section-title" style="margin-top:0;">New menu launch</div>
+          <p style="color:var(--muted);margin:0 0 10px;">Chef's tasting menu debut</p>
+          <div style="font-size:12px;color:var(--muted);">8 posts &middot; 12 Aug – 20 Sep</div>
+        </div>
+        <div class="card">
+          <div class="section-title" style="margin-top:0;">Weekend getaway</div>
+          <p style="color:var(--muted);margin:0 0 10px;">Awareness for off-season bookings</p>
+          <div style="font-size:12px;color:var(--muted);">5 posts &middot; 1 Sep – 30 Sep</div>
+        </div>
+        <div class="card">
+          <div class="section-title" style="margin-top:0;">Festive season</div>
+          <p style="color:var(--muted);margin:0 0 10px;">Event promotion, New Year's Eve</p>
+          <div style="font-size:12px;color:var(--muted);">4 posts &middot; 1 Nov – 31 Dec</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. ANALYTICS -->
+    <section class="page" id="page-analytics">
+      <div class="page-head"><h1>Analytics</h1><span class="badge">Last 30 days</span></div>
+      <div class="grid cols-4" style="margin-bottom:24px;">
+        <div class="stat-card"><div class="num">42</div><div class="label">Posts</div></div>
+        <div class="stat-card"><div class="num">3,210</div><div class="label">Likes</div></div>
+        <div class="stat-card"><div class="num">486</div><div class="label">Shares</div></div>
+        <div class="stat-card"><div class="num">98,400</div><div class="label">Reach</div></div>
+      </div>
+      <div class="section-title">Reach by platform</div>
+      <div class="card">
+        <div class="bar-row"><div class="platform">Instagram</div><div class="bar-track"><div class="bar-fill" style="width:82%;"></div></div><div class="val">61k</div></div>
+        <div class="bar-row"><div class="platform">Facebook</div><div class="bar-track"><div class="bar-fill" style="width:46%;"></div></div><div class="val">28k</div></div>
+        <div class="bar-row"><div class="platform">TikTok</div><div class="bar-track"><div class="bar-fill" style="width:22%;"></div></div><div class="val">9.4k</div></div>
+      </div>
+    </section>
+
+    <!-- 7. STRATEGY -->
+    <section class="page" id="page-strategy">
+      <div class="page-head"><h1>Social media strategy</h1></div>
+      <div class="section-title" style="margin-top:0;">Best posting times</div>
+      <div class="card" style="margin-bottom:20px;">
+        <table>
+          <tr><th>Platform</th><th>Best time</th><th>Best day</th></tr>
+          <tr><td>Instagram</td><td>5:00 – 7:00pm</td><td>Thursday, Friday</td></tr>
+          <tr><td>Facebook</td><td>11:00am – 1:00pm</td><td>Saturday</td></tr>
+          <tr><td>TikTok</td><td>7:00 – 9:00pm</td><td>Friday, Sunday</td></tr>
+        </table>
+      </div>
+      <div class="section-title">Suggested hashtags</div>
+      <div class="row-flex" style="margin-bottom:20px;">
+        <span class="tag">#SereneBay</span><span class="tag">#OceanDining</span><span class="tag">#WeekendGetaway</span><span class="tag">#IslandHotel</span><span class="tag">#ChefsTable</span>
+      </div>
+      <div class="section-title">Target audience</div>
+      <div class="grid cols-3">
+        <div class="card persona"><div class="placeholder-img avatar"></div><div><strong>Couples, 28–40</strong><p style="color:var(--muted);margin:4px 0 0;">Weekend packages, dining experiences</p></div></div>
+        <div class="card persona"><div class="placeholder-img avatar"></div><div><strong>Families, 35–50</strong><p style="color:var(--muted);margin:4px 0 0;">School holiday stays, buffet promotions</p></div></div>
+        <div class="card persona"><div class="placeholder-img avatar"></div><div><strong>Corporate planners</strong><p style="color:var(--muted);margin:4px 0 0;">Events, conferences, group dining</p></div></div>
+      </div>
+    </section>
+
+    <!-- 8. PRIVACY -->
+    <section class="page" id="page-privacy">
+      <div class="page-head"><h1>Privacy &amp; compliance</h1></div>
+      <div class="section-title" style="margin-top:0;">Guest consent log</div>
+      <div class="card" style="margin-bottom:20px;">
+        <table>
+          <tr><th>Guest</th><th>Post</th><th>Consent</th><th>Date</th></tr>
+          <tr><td>K. Fernando</td><td>Weekend seafood buffet</td><td><span class="pill published">Given</span></td><td>28 Aug</td></tr>
+          <tr><td>Guest declined to be named</td><td>Poolside sunset series</td><td><span class="pill rejected">Not given</span></td><td>26 Aug</td></tr>
+        </table>
+      </div>
+      <div class="section-title">Data protection statement</div>
+      <div class="card" style="margin-bottom:20px; color:var(--muted);">Guest images and names are stored only with signed consent, used solely for approved marketing content, and removed on request. Full statement continues in the published policy document.</div>
+      <div class="section-title">Social media guidelines</div>
+      <div class="card" style="color:var(--muted);">
+        1. Never post a guest's image or name without recorded consent.<br>
+        2. Keep brand voice warm and factual — no exaggerated claims.<br>
+        3. Route anything involving a complaint or incident to the Administrator before posting.
+      </div>
+    </section>
+
+    <!-- 9. USER MANAGEMENT -->
+    <section class="page" id="page-users">
+      <div class="page-head"><h1>User management</h1><button class="btn-sm solid">+ Add user</button></div>
+      <div class="card">
+        <table>
+          <tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th></th></tr>
+          <tr><td>M. Perera</td><td>m.perera@serenebay.com</td><td>Administrator</td><td><span class="pill published">Active</span></td><td><button class="btn-sm">Edit</button></td></tr>
+          <tr><td>N. Silva</td><td>n.silva@serenebay.com</td><td>Content Creator</td><td><span class="pill published">Active</span></td><td><button class="btn-sm">Edit</button></td></tr>
+          <tr><td>R. Jayasuriya</td><td>r.jaya@serenebay.com</td><td>Content Approver</td><td><span class="pill published">Active</span></td><td><button class="btn-sm">Edit</button></td></tr>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+function enterApp(){
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app-shell').classList.add('active');
+  showPage('dashboard');
+  setRole('admin');
+}
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('nav.pages button').forEach(b => b.classList.toggle('active', b.dataset.page === name));
+}
+function setRole(role){
+  document.getElementById('roleSelect').value = role;
+  document.querySelectorAll('nav.pages button').forEach(b=>{
+    const allowed = b.dataset.roles.split(',').includes(role);
+    b.classList.toggle('hidden', !allowed);
+  });
+  const labels = {admin:'Administrator', creator:'Content Creator', approver:'Content Approver'};
+  document.getElementById('dashRoleBadge').textContent = labels[role];
+  const newCampaignBtn = document.getElementById('newCampaignBtn');
+  if(newCampaignBtn) newCampaignBtn.style.display = role === 'approver' ? 'none' : 'inline-block';
+  // if current page is now hidden for this role, fall back to dashboard
+  const activeBtn = document.querySelector('nav.pages button.active');
+  if(activeBtn && activeBtn.classList.contains('hidden')) showPage('dashboard');
+}
+</script>
+</body>
+</html>
