@@ -1,4 +1,5 @@
 const { Post, User, Campaign, Approval } = require('../models');
+const { publishToFacebook, isConfigured } = require('../services/facebookService');
 
 // GET /api/posts?status=draft|scheduled|published...
 async function listPosts(req, res) {
@@ -108,6 +109,48 @@ async function schedulePost(req, res) {
   res.json(post);
 }
 
+// POST /api/posts/:id/publish  (Administrator, Content Creator)
+// Pushes a scheduled (or approved) post live via the Meta Graph API.
+// Falls back to a simulated publish if Facebook credentials aren't
+// configured, so the flow still demonstrates end-to-end without a
+// real developer app on hand — see services/facebookService.js.
+async function publishPost(req, res) {
+  const post = await Post.findByPk(req.params.id);
+  if (!post) return res.status(404).json({ message: 'Post not found' });
+
+  if (!['approved', 'scheduled'].includes(post.status)) {
+    return res.status(400).json({ message: 'Only approved or scheduled posts can be published' });
+  }
+
+  try {
+    const result = await publishToFacebook({
+      caption: post.caption,
+      imageUrl: post.image_url && post.image_url.startsWith('http') ? post.image_url : null,
+    });
+
+    await post.update({
+      status: 'published',
+      external_post_id: result.externalPostId,
+    });
+
+    res.json({
+      post,
+      simulated: result.simulated,
+      message: result.simulated
+        ? 'Facebook credentials are not configured, so this was simulated rather than posted live. See backend/README.md to connect a real Facebook Page.'
+        : 'Published live to Facebook.',
+    });
+  } catch (err) {
+    res.status(502).json({ message: 'Could not publish to Facebook', error: err.message });
+  }
+}
+
+// GET /api/posts/integration-status  (any authenticated user)
+// Lets the frontend show whether it's hitting the real Graph API or simulating.
+function integrationStatus(req, res) {
+  res.json({ facebookConfigured: isConfigured() });
+}
+
 // DELETE /api/posts/:id  (Administrator, or owning Content Creator on a draft)
 async function deletePost(req, res) {
   const post = await Post.findByPk(req.params.id);
@@ -130,5 +173,7 @@ module.exports = {
   updatePost,
   submitForApproval,
   schedulePost,
+  publishPost,
+  integrationStatus,
   deletePost,
 };

@@ -18,6 +18,10 @@ const Post = sequelize.define('Post', {
   },
   scheduled_date: { type: DataTypes.DATEONLY, allowNull: true },
   scheduled_time: { type: DataTypes.TIME, allowNull: true },
+  // Set once a post is actually pushed to a real platform via the
+  // publish endpoint. Prefixed "SIMULATED-" when no Facebook credentials
+  // are configured (see services/facebookService.js).
+  external_post_id: { type: DataTypes.STRING, allowNull: true },
 }, {
   tableName: 'posts',
   timestamps: true,
