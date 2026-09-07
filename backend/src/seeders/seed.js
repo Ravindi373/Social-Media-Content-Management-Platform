@@ -62,23 +62,38 @@ async function seed() {
   ]);
   console.log('Approvals seeded.');
 
-  // ---- Analytics (one row per platform, for published posts) ----
+  // ---- Analytics (daily snapshots per platform, across ALL published posts) ----
+  // Building a real 7-day time series (rather than one flat snapshot) so the
+  // "Advanced analytics dashboard" trend chart has genuine history to show.
+  function daysAgo(n) {
+    const d = new Date();
+    d.setDate(d.getDate() - n);
+    return d;
+  }
+
+  const allPublished = posts.filter(p => p.status === 'published');
   const analyticsRows = [];
-  publishedSample.forEach((p, i) => {
+  allPublished.forEach((p, postIndex) => {
     const platformList = p.platforms.split(',');
-    platformList.forEach((platform, j) => {
-      analyticsRows.push({
-        post_id: p.id,
-        platform,
-        likes: 120 + i * 37 + j * 11,
-        shares: 15 + i * 4,
-        comments: 8 + i * 2,
-        reach: 4200 + i * 900 + j * 300,
-      });
+    platformList.forEach((platform, platIndex) => {
+      for (let daysBack = 6; daysBack >= 0; daysBack--) {
+        const growth = 7 - daysBack; // 1 (a week ago) up to 7 (today) — simulates organic growth
+        const timestamp = daysAgo(daysBack);
+        analyticsRows.push({
+          post_id: p.id,
+          platform,
+          likes: 18 * growth + postIndex * 6 + platIndex * 3,
+          shares: 3 * growth + postIndex,
+          comments: 2 * growth + platIndex,
+          reach: 450 * growth + postIndex * 140 + platIndex * 70,
+          createdAt: timestamp,
+          updatedAt: timestamp,
+        });
+      }
     });
   });
   await Analytics.bulkCreate(analyticsRows);
-  console.log(`${analyticsRows.length} analytics rows seeded.`);
+  console.log(`${analyticsRows.length} analytics rows seeded (7-day history across ${allPublished.length} published posts).`);
 
   // ---- Consent logs ----
   const brunchPost = posts.find(p => p.caption.startsWith('Sunday brunch'));

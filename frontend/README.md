@@ -60,6 +60,31 @@ src/
 4. The backend enforces the same roles again on every endpoint, so the frontend
    checks are for UX only, not the actual access control.
 
+## Automated testing (bonus)
+
+```bash
+npm test
+```
+
+Runs 10 Vitest + React Testing Library tests:
+
+- **`src/context/__tests__/AuthContext.test.jsx`** — login/logout state
+  management, with the real API client mocked out
+- **`src/components/__tests__/RoleRoute.test.jsx`** — confirms the role
+  guard actually blocks disallowed roles and redirects appropriately
+- **`src/pages/__tests__/Login.test.jsx`** — form rendering, submission,
+  and error display
+
+Writing these tests caught a real accessibility bug: every form label in
+Login, Campaigns, and Users was missing `htmlFor`/`id`, so labels weren't
+properly associated with their inputs for screen readers. Now fixed.
+
+## Deployment
+
+See `DEPLOYMENT.md` at the repo root for deploying this frontend to
+Vercel. `vercel.json` handles the SPA routing rewrite so client-side routes
+like `/dashboard` don't 404 on a hard refresh.
+
 ## Notes for the assignment
 
 - Content calendar is a sortable list rather than a month grid, to keep the scaffold

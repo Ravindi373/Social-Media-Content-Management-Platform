@@ -40,23 +40,23 @@ export default function Campaigns() {
 
       {showForm && (
         <form className="card" onSubmit={createCampaign} style={{ marginBottom: 20 }}>
-          <div className="field"><label>Name</label>
-            <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
+          <div className="field"><label htmlFor="campaign-name">Name</label>
+            <input id="campaign-name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
           </div>
-          <div className="field"><label>Type</label>
-            <select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })}>
+          <div className="field"><label htmlFor="campaign-type">Type</label>
+            <select id="campaign-type" value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })}>
               {TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
             </select>
           </div>
-          <div className="field"><label>Objective</label>
-            <input value={form.objective} onChange={(e) => setForm({ ...form, objective: e.target.value })} />
+          <div className="field"><label htmlFor="campaign-objective">Objective</label>
+            <input id="campaign-objective" value={form.objective} onChange={(e) => setForm({ ...form, objective: e.target.value })} />
           </div>
           <div className="row-flex">
-            <div className="field" style={{ flex: 1 }}><label>Start date</label>
-              <input type="date" value={form.start_date} onChange={(e) => setForm({ ...form, start_date: e.target.value })} />
+            <div className="field" style={{ flex: 1 }}><label htmlFor="campaign-start">Start date</label>
+              <input id="campaign-start" type="date" value={form.start_date} onChange={(e) => setForm({ ...form, start_date: e.target.value })} />
             </div>
-            <div className="field" style={{ flex: 1 }}><label>End date</label>
-              <input type="date" value={form.end_date} onChange={(e) => setForm({ ...form, end_date: e.target.value })} />
+            <div className="field" style={{ flex: 1 }}><label htmlFor="campaign-end">End date</label>
+              <input id="campaign-end" type="date" value={form.end_date} onChange={(e) => setForm({ ...form, end_date: e.target.value })} />
             </div>
           </div>
           <button className="btn-sm solid" type="submit">Create campaign</button>

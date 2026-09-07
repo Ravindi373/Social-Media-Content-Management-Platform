@@ -66,6 +66,32 @@ All endpoints are prefixed with `/api`. Authenticated routes expect
 | GET | /consent-logs | Any authenticated user |
 | POST | /consent-logs | Administrator, Content Creator |
 
+## AI-assisted caption generation (bonus)
+
+`POST /api/posts/generate-caption` calls **Claude (Anthropic's API)** to write
+a caption and suggest hashtags from a short topic you type in, right from the
+Create Post page. If `ANTHROPIC_API_KEY` isn't set in `.env`, it falls back
+to a template-based simulated caption instead of failing, so the feature
+still demonstrates end-to-end without a real API key.
+
+### Getting a real API key (~5 minutes)
+
+1. Go to [console.anthropic.com](https://console.anthropic.com/), sign up
+   or log in, and go to **Settings → API Keys**.
+2. Click **Create Key**, copy it, and add it to `.env`:
+   ```
+   ANTHROPIC_API_KEY=sk-ant-your-key-here
+   AI_MODEL=claude-sonnet-5
+   ```
+3. Restart the backend. `GET /api/posts/integration-status` should now
+   return `{ "aiCaptionConfigured": true, ... }`, and the "Generate caption
+   & hashtags" button on Create Post will call Claude for real.
+
+Note: this requires billing set up on your Anthropic account (API usage is
+metered separately from the Claude.ai consumer app) — a few generated
+captions for a demo cost a fraction of a cent, but it isn't literally free
+the way the simulated fallback is.
+
 ## Facebook integration (bonus: real social media API)
 
 `POST /api/posts/:id/publish` pushes an approved or scheduled post live via
@@ -113,6 +139,32 @@ to your Page, via a two-step "create container, then publish" flow on
 here to keep the scope focused, but it's a natural next step if you want to
 push the bonus further — the existing `facebookService.js` module is the
 right place to add it.
+
+## Automated testing (bonus)
+
+```bash
+npm test
+```
+
+Runs 34 Jest + Supertest tests against an in-memory SQLite database (no
+MySQL/XAMPP needed for tests — `NODE_ENV=test`, set automatically by Jest,
+switches the database layer, see `src/config/database.js`). Coverage
+includes:
+
+- **`tests/auth.test.js`** — login success/failure, token validation
+- **`tests/posts.test.js`** — the full post lifecycle (draft → submit →
+  approve → schedule → publish) end-to-end, plus AI caption generation
+- **`tests/roles.test.js`** — permission checks across users and campaigns
+- **`tests/analytics.test.js`** — hand-verified aggregation math for the
+  summary, trend, top-posts, and by-campaign endpoints
+
+## Deployment
+
+See `DEPLOYMENT.md` at the repo root for deploying this backend to Render
+with a free managed PostgreSQL database. The database layer (`src/config/database.js`)
+automatically switches between MySQL (local dev), PostgreSQL (via
+`DATABASE_URL`, used in production), and SQLite (tests) — no code changes
+needed between environments.
 
 ## Notes for the assignment
 

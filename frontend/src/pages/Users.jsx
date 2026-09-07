@@ -45,17 +45,17 @@ export default function Users() {
 
       {showForm && (
         <form className="card" onSubmit={createUser} style={{ marginBottom: 20 }}>
-          <div className="field"><label>Name</label>
-            <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
+          <div className="field"><label htmlFor="user-name">Name</label>
+            <input id="user-name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
           </div>
-          <div className="field"><label>Email</label>
-            <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
+          <div className="field"><label htmlFor="user-email">Email</label>
+            <input id="user-email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
           </div>
-          <div className="field"><label>Temporary password</label>
-            <input type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
+          <div className="field"><label htmlFor="user-password">Temporary password</label>
+            <input id="user-password" type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
           </div>
-          <div className="field"><label>Role</label>
-            <select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}>
+          <div className="field"><label htmlFor="user-role">Role</label>
+            <select id="user-role" value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}>
               {ROLES.map((r) => <option key={r} value={r}>{r}</option>)}
             </select>
           </div>
@@ -68,7 +68,8 @@ export default function Users() {
         {loading ? (
           <p className="loading">Loading…</p>
         ) : (
-          <table>
+          <div className="table-scroll">
+<table>
             <thead><tr><th>Name</th><th>Email</th><th>Role</th><th></th></tr></thead>
             <tbody>
               {users.map((u) => (
@@ -81,6 +82,7 @@ export default function Users() {
               ))}
             </tbody>
           </table>
+</div>
         )}
       </div>
     </section>

@@ -1,5 +1,6 @@
 const { Post, User, Campaign, Approval } = require('../models');
 const { publishToFacebook, isConfigured } = require('../services/facebookService');
+const aiCaptionService = require('../services/aiCaptionService');
 
 // GET /api/posts?status=draft|scheduled|published...
 async function listPosts(req, res) {
@@ -145,10 +146,26 @@ async function publishPost(req, res) {
   }
 }
 
+// POST /api/posts/generate-caption  (Administrator, Content Creator)
+// AI-assisted caption + hashtag generation, bonus feature.
+// body: { topic, platform, tone }
+async function generateCaption(req, res) {
+  try {
+    const { topic, platform, tone } = req.body;
+    const result = await aiCaptionService.generateCaption({ topic, platform, tone });
+    res.json(result);
+  } catch (err) {
+    res.status(400).json({ message: 'Could not generate caption', error: err.message });
+  }
+}
+
 // GET /api/posts/integration-status  (any authenticated user)
 // Lets the frontend show whether it's hitting the real Graph API or simulating.
 function integrationStatus(req, res) {
-  res.json({ facebookConfigured: isConfigured() });
+  res.json({
+    facebookConfigured: isConfigured(),
+    aiCaptionConfigured: aiCaptionService.isConfigured(),
+  });
 }
 
 // DELETE /api/posts/:id  (Administrator, or owning Content Creator on a draft)
@@ -174,6 +191,7 @@ module.exports = {
   submitForApproval,
   schedulePost,
   publishPost,
+  generateCaption,
   integrationStatus,
   deletePost,
 };

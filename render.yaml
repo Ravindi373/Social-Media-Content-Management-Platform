@@ -1,0 +1,47 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# Deploy: on Render, click "New +" → "Blueprint", connect this repo, and
+# Render will read this file to provision the backend service and its
+# database together. You can also skip this file entirely and set the
+# service up manually in the dashboard — see backend/README.md for those
+# step-by-step instructions.
+
+services:
+  - type: web
+    name: smcmp-backend
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 8h
+      - key: DATABASE_URL
+        fromDatabase:
+          name: smcmp-db
+          property: connectionString
+      - key: DB_SSL
+        value: "true"
+      # Set this manually in the Render dashboard once you know your
+      # Vercel frontend's URL, to lock CORS down to just that origin.
+      - key: CLIENT_URL
+        sync: false
+      # Optional bonus integrations — leave blank to run in simulated mode.
+      - key: FACEBOOK_PAGE_ID
+        sync: false
+      - key: FACEBOOK_PAGE_ACCESS_TOKEN
+        sync: false
+      - key: FACEBOOK_GRAPH_API_VERSION
+        value: v19.0
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: AI_MODEL
+        value: claude-sonnet-5
+
+databases:
+  - name: smcmp-db
+    plan: free

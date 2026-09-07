@@ -43,7 +43,8 @@ export default function Dashboard() {
         ) : recent.length === 0 ? (
           <p className="empty-state">No posts yet.</p>
         ) : (
-          <table>
+          <div className="table-scroll">
+<table>
             <thead>
               <tr><th>Post</th><th>Platforms</th><th>Status</th><th>Date</th></tr>
             </thead>
@@ -58,6 +59,7 @@ export default function Dashboard() {
               ))}
             </tbody>
           </table>
+</div>
         )}
       </div>
     </section>

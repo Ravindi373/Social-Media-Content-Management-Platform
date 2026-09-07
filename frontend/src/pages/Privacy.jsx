@@ -18,7 +18,8 @@ export default function Privacy() {
         {loading ? (
           <p className="loading">Loading…</p>
         ) : (
-          <table>
+          <div className="table-scroll">
+<table>
             <thead><tr><th>Guest</th><th>Post</th><th>Consent</th><th>Date</th></tr></thead>
             <tbody>
               {logs.map((l) => (
@@ -31,6 +32,7 @@ export default function Privacy() {
               ))}
             </tbody>
           </table>
+</div>
         )}
       </div>
 

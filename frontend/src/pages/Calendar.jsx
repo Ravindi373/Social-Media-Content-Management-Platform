@@ -68,7 +68,8 @@ export default function Calendar() {
         ) : sorted.length === 0 ? (
           <p className="empty-state">Nothing scheduled yet.</p>
         ) : (
-          <table>
+          <div className="table-scroll">
+<table>
             <thead><tr><th>Date</th><th>Time</th><th>Post</th><th>Platforms</th><th></th></tr></thead>
             <tbody>
               {sorted.map((p) => (
@@ -86,6 +87,7 @@ export default function Calendar() {
               ))}
             </tbody>
           </table>
+</div>
         )}
       </div>
       <p className="loading" style={{ marginTop: 16 }}>

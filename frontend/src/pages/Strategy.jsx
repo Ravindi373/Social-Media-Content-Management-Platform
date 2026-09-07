@@ -5,7 +5,8 @@ export default function Strategy() {
 
       <div className="section-title" style={{ marginTop: 0 }}>Best posting times</div>
       <div className="card" style={{ marginBottom: 20 }}>
-        <table>
+        <div className="table-scroll">
+<table>
           <thead><tr><th>Platform</th><th>Best time</th><th>Best day</th></tr></thead>
           <tbody>
             <tr><td>Instagram</td><td>5:00 – 7:00pm</td><td>Thursday, Friday</td></tr>
@@ -13,6 +14,7 @@ export default function Strategy() {
             <tr><td>TikTok</td><td>7:00 – 9:00pm</td><td>Friday, Sunday</td></tr>
           </tbody>
         </table>
+</div>
       </div>
 
       <div className="section-title">Suggested hashtags</div>

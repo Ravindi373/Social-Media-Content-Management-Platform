@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import client from '../api/client';
 
 const PLATFORM_OPTIONS = ['Instagram', 'Facebook', 'TikTok', 'X'];
+const TONE_OPTIONS = ['warm and inviting', 'playful', 'elegant and formal', 'urgent / limited-time'];
 
 export default function CreatePost() {
   const navigate = useNavigate();
@@ -15,12 +16,43 @@ export default function CreatePost() {
   const [status, setStatus] = useState('');
   const [saving, setSaving] = useState(false);
 
+  // AI caption generation
+  const [aiConfigured, setAiConfigured] = useState(false);
+  const [topic, setTopic] = useState('');
+  const [tone, setTone] = useState(TONE_OPTIONS[0]);
+  const [generating, setGenerating] = useState(false);
+  const [aiResult, setAiResult] = useState(null);
+
   useEffect(() => {
     client.get('/campaigns').then((res) => setCampaigns(res.data));
+    client.get('/posts/integration-status').then((res) => setAiConfigured(res.data.aiCaptionConfigured));
   }, []);
 
   function togglePlatform(name) {
     setPlatforms((prev) => (prev.includes(name) ? prev.filter((p) => p !== name) : [...prev, name]));
+  }
+
+  async function generateWithAI() {
+    if (!topic.trim()) {
+      setAiResult({ error: true, message: 'Enter a short topic first, e.g. "new seafood brunch menu".' });
+      return;
+    }
+    setGenerating(true);
+    setAiResult(null);
+    try {
+      const { data } = await client.post('/posts/generate-caption', {
+        topic,
+        platform: platforms[0] || 'Instagram',
+        tone,
+      });
+      setCaption(data.caption);
+      setHashtags(data.hashtags.join(','));
+      setAiResult({ simulated: data.simulated });
+    } catch (err) {
+      setAiResult({ error: true, message: err.response?.data?.error || 'Could not generate a caption.' });
+    } finally {
+      setGenerating(false);
+    }
   }
 
   async function save(submit) {
@@ -52,6 +84,39 @@ export default function CreatePost() {
       <div className="page-head">
         <h1>Create post</h1>
         <span className="badge">Draft — unsaved</span>
+      </div>
+
+      <div className="card" style={{ marginBottom: 20 }}>
+        <div className="section-title" style={{ marginTop: 0 }}>
+          Generate with AI
+          <span style={{ float: 'right', fontWeight: 'normal' }}>
+            {aiConfigured ? '🟢 Connected to Claude' : '🟡 Simulated (no API key configured)'}
+          </span>
+        </div>
+        <div className="row-flex" style={{ alignItems: 'flex-start' }}>
+          <input
+            type="text"
+            style={{ flex: 2, minWidth: 240 }}
+            placeholder="What's this post about? e.g. new seafood brunch menu"
+            value={topic}
+            onChange={(e) => setTopic(e.target.value)}
+          />
+          <select style={{ flex: 1, minWidth: 160 }} value={tone} onChange={(e) => setTone(e.target.value)}>
+            {TONE_OPTIONS.map((t) => <option key={t} value={t}>{t}</option>)}
+          </select>
+          <button className="btn-sm solid" disabled={generating} onClick={generateWithAI}>
+            {generating ? 'Generating…' : 'Generate caption & hashtags'}
+          </button>
+        </div>
+        {aiResult && (
+          <p className={aiResult.error ? 'error-text' : 'loading'} style={{ marginTop: 10, marginBottom: 0 }}>
+            {aiResult.error
+              ? aiResult.message
+              : aiResult.simulated
+                ? 'Filled in below with a simulated caption — set ANTHROPIC_API_KEY in the backend .env for real AI generation.'
+                : 'Filled in below using Claude — feel free to edit before saving.'}
+          </p>
+        )}
       </div>
 
       <div className="form-grid">
