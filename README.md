@@ -40,10 +40,10 @@ Each has its own README with full setup instructions. Quick start below.
 
 ## Project documents
 
-`docs/SMCMP_System_Design.md` — ERD, role permissions matrix, page list, and
+`docs/SMCMP_System_Design.md` - ERD, role permissions matrix, page list, and
 approval workflow.
 
-`docs/SMCMP_Wireframes.html` — clickable wireframe prototype of all 10 pages.
+`docs/SMCMP_Wireframes.html` - clickable wireframe prototype of all 10 pages.
 Open it directly in a browser (double-click, or a local static server). If
 you publish it via GitHub Pages, the URL must include the filename, e.g.
 `https://yourname.github.io/repo/docs/SMCMP_Wireframes.html`, since it isn't
