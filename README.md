@@ -25,7 +25,7 @@ Each has its own README with full setup instructions. Quick start below.
    ```bash
    cd frontend
    npm install
-   cp .env.example .env   # defaults to http://localhost:5000/api, adjust if needed
+   cp .env.example .env     # defaults to http://localhost:5000/api, adjust if needed
    npm run dev              # runs on http://localhost:5173
    ```
 
