@@ -5,8 +5,8 @@ Client: Serene Bay Resort & Kitchen (Hotel/Restaurant)
 
 This repo contains two apps:
 
-- **`backend/`** — Express + Sequelize + MySQL REST API
-- **`frontend/`** — React (Vite) app with role-based routing
+- **`backend/`** - Express + Sequelize + MySQL REST API
+- **`frontend/`** - React (Vite) app with role-based routing
 
 Each has its own README with full setup instructions. Quick start below.
 
