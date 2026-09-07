@@ -17,7 +17,7 @@ Each has its own README with full setup instructions. Quick start below.
    cd backend
    npm install
    cp .env.example .env     # fill in your MySQL credentials + a JWT secret
-   npm run seed            # creates tables and loads sample data
+   npm run seed             # creates tables and loads sample data
    npm run dev              # runs on http://localhost:5000
    ```
 
