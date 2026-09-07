@@ -5,8 +5,8 @@ Client: Serene Bay Resort & Kitchen (Hotel/Restaurant)
 
 This repo contains two apps:
 
-- **`backend/`** — Express + Sequelize + MySQL REST API
-- **`frontend/`** — React (Vite) app with role-based routing
+- **`backend/`** - Express + Sequelize + MySQL REST API
+- **`frontend/`** - React (Vite) app with role-based routing
 
 Each has its own README with full setup instructions. Quick start below.
 
@@ -16,8 +16,8 @@ Each has its own README with full setup instructions. Quick start below.
    ```bash
    cd backend
    npm install
-   cp .env.example .env   # fill in your MySQL credentials + a JWT secret
-   npm run seed            # creates tables and loads sample data
+   cp .env.example .env     # fill in your MySQL credentials + a JWT secret
+   npm run seed             # creates tables and loads sample data
    npm run dev              # runs on http://localhost:5000
    ```
 
@@ -25,7 +25,7 @@ Each has its own README with full setup instructions. Quick start below.
    ```bash
    cd frontend
    npm install
-   cp .env.example .env   # defaults to http://localhost:5000/api, adjust if needed
+   cp .env.example .env     # defaults to http://localhost:5000/api, adjust if needed
    npm run dev              # runs on http://localhost:5173
    ```
 
@@ -40,10 +40,10 @@ Each has its own README with full setup instructions. Quick start below.
 
 ## Project documents
 
-`docs/SMCMP_System_Design.md` — ERD, role permissions matrix, page list, and
+`docs/SMCMP_System_Design.md` - ERD, role permissions matrix, page list, and
 approval workflow.
 
-`docs/SMCMP_Wireframes.html` — clickable wireframe prototype of all 10 pages.
+`docs/SMCMP_Wireframes.html` - clickable wireframe prototype of all 10 pages.
 Open it directly in a browser (double-click, or a local static server). If
 you publish it via GitHub Pages, the URL must include the filename, e.g.
 `https://yourname.github.io/repo/docs/SMCMP_Wireframes.html`, since it isn't
