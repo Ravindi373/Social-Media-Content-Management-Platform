@@ -1,6 +1,7 @@
 # SMCMP — Social Media Content Management Platform
 
-CCS4360 – Techniques in Social Media — Group Assignment
+CCS4360 – Techniques in Social Media - Group Assignment
+
 Client: Serene Bay Resort & Kitchen (Hotel/Restaurant)
 
 This repo contains two apps:
