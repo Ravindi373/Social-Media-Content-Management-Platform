@@ -1,4 +1,4 @@
-# SMCMP — Social Media Content Management Platform
+# SMCMP - Social Media Content Management Platform
 
 CCS4360 – Techniques in Social Media - Group Assignment
 
