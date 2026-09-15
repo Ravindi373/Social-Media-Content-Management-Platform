@@ -12,6 +12,14 @@ async function start() {
     await sequelize.sync({ alter: true });
     console.log('Database connected and synced.');
 
+    const { User } = require('./models');
+    const userCount = await User.count();
+    if (userCount === 0) {
+      console.log('Database is empty. Running seed script...');
+      const { execSync } = require('child_process');
+      execSync('npm run seed', { stdio: 'inherit' });
+    }
+
     app.listen(PORT, () => {
       console.log(`SMCMP API running on http://localhost:${PORT}`);
     });
