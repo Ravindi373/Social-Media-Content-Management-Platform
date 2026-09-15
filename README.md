@@ -52,10 +52,11 @@ named `index.html`.
 
 ```
 smcmp/
-  backend/     Express API — models, controllers, routes, seed script
-  frontend/    React app — pages, routing by role, API client
-  docs/        System design doc + wireframe prototype
-  .nojekyll    Disables Jekyll processing if you enable GitHub Pages
-  README.md    You are here
+  backend/      Express API — models, controllers, routes, seed script, tests
+  frontend/     React app — pages, routing by role, API client, tests
+  docs/         System design doc (ERD, roles matrix) + wireframe prototype
+  render.yaml   Render Blueprint for backend + PostgreSQL
+  DEPLOYMENT.md Step-by-step deployment guide (Render + Vercel)
+  .github/      CI workflow (runs both test suites on every push)
 ```
 
