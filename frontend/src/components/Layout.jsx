@@ -39,7 +39,7 @@ export default function Layout() {
 
       <aside className={navOpen ? 'open' : ''}>
         <button className="close-btn" onClick={closeNav} aria-label="Close menu"><X size={20} /></button>
-        <div className="brand-mark"><span className="dot" /><span>SERENE BAY</span></div>
+        <div className="brand-mark"><span className="dot" /><span>SERENE BAY CMS</span></div>
         <div className="role-switch">
           <label>Signed in as</label>
           <div className="role-name">{user.name}</div>

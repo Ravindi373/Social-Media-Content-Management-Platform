@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import client from '../api/client';
+import PostPreview from '../components/PostPreview';
 
 const PLATFORM_OPTIONS = ['Instagram', 'Facebook', 'TikTok', 'X'];
 const TONE_OPTIONS = ['warm and inviting', 'playful', 'elegant and formal', 'urgent / limited-time'];
@@ -134,29 +135,32 @@ export default function CreatePost() {
             placeholder="#SereneBay,#SundayBrunch,#OceanDining" />
         </div>
 
-        <div className="card">
-          <div className="section-title" style={{ marginTop: 0 }}>Target platforms</div>
-          {PLATFORM_OPTIONS.map((name) => (
-            <div className="checkbox-row" key={name}>
-              <input type="checkbox" checked={platforms.includes(name)} onChange={() => togglePlatform(name)} id={`plat-${name}`} />
-              <label htmlFor={`plat-${name}`}>{name}</label>
-            </div>
-          ))}
-
-          <div className="section-title">Campaign</div>
-          <select style={{ width: '100%' }} value={campaignId} onChange={(e) => setCampaignId(e.target.value)}>
-            <option value="">No campaign</option>
-            {campaigns.map((c) => (
-              <option key={c.id} value={c.id}>{c.name}</option>
+        <div>
+          <div className="card" style={{ marginBottom: 20 }}>
+            <div className="section-title" style={{ marginTop: 0 }}>Target platforms</div>
+            {PLATFORM_OPTIONS.map((name) => (
+              <div className="checkbox-row" key={name}>
+                <input type="checkbox" checked={platforms.includes(name)} onChange={() => togglePlatform(name)} id={`plat-${name}`} />
+                <label htmlFor={`plat-${name}`}>{name}</label>
+              </div>
             ))}
-          </select>
 
-          {status && <p className="error-text">{status}</p>}
+            <div className="section-title">Campaign</div>
+            <select style={{ width: '100%' }} value={campaignId} onChange={(e) => setCampaignId(e.target.value)}>
+              <option value="">No campaign</option>
+              {campaigns.map((c) => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+            </select>
 
-          <div style={{ marginTop: 20, display: 'flex', gap: 8 }}>
-            <button className="btn-sm" disabled={saving} onClick={() => save(false)}>Save as draft</button>
-            <button className="btn-sm solid" disabled={saving} onClick={() => save(true)}>Submit for approval</button>
+            {status && <p className="error-text">{status}</p>}
+
+            <div style={{ marginTop: 20, display: 'flex', gap: 8 }}>
+              <button className="btn-sm" disabled={saving} onClick={() => save(false)}>Save as draft</button>
+              <button className="btn-sm solid" disabled={saving} onClick={() => save(true)}>Submit for approval</button>
+            </div>
           </div>
+          <PostPreview post={{ caption, imageUrl, status: 'preview' }} />
         </div>
       </div>
     </section>

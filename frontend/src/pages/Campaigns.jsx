@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import client from '../api/client';
+import PostPreview from '../components/PostPreview';
 
 const TYPES = ['New Product Launch', 'Awareness Campaign', 'Event Promotion'];
 
@@ -15,6 +16,7 @@ export default function Campaigns() {
   
   const [selectedCampaign, setSelectedCampaign] = useState(null);
   const [loadingDetails, setLoadingDetails] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
 
   function load() {
     setLoading(true);
@@ -32,6 +34,7 @@ export default function Campaigns() {
 
   async function viewCampaign(id) {
     setLoadingDetails(true);
+    setSelectedPost(null);
     client.get(`/campaigns/${id}`).then((res) => {
       setSelectedCampaign(res.data);
     }).finally(() => setLoadingDetails(false));
@@ -42,7 +45,7 @@ export default function Campaigns() {
       <section>
         <div className="page-head">
           <h1>{selectedCampaign.name}</h1>
-          <button className="btn-sm" onClick={() => setSelectedCampaign(null)}>Back to Campaigns</button>
+          <button className="btn-sm" onClick={() => { setSelectedCampaign(null); setSelectedPost(null); }}>Back to Campaigns</button>
         </div>
         <div className="card" style={{ marginBottom: 20 }}>
           <p><strong>Type:</strong> {selectedCampaign.type}</p>
@@ -50,27 +53,32 @@ export default function Campaigns() {
           <p><strong>Dates:</strong> {selectedCampaign.start_date} – {selectedCampaign.end_date}</p>
         </div>
         <div className="section-title">Posts in this campaign</div>
-        <div className="card">
-          {!selectedCampaign.posts || selectedCampaign.posts.length === 0 ? (
-            <p className="empty-state">No posts in this campaign yet.</p>
-          ) : (
-            <div className="table-scroll">
-              <table>
-                <thead>
-                  <tr><th>Post Caption</th><th>Platforms</th><th>Status</th></tr>
-                </thead>
-                <tbody>
-                  {selectedCampaign.posts.map((p) => (
-                    <tr key={p.id}>
-                      <td>{p.caption.length > 60 ? p.caption.slice(0, 60) + '…' : p.caption}</td>
-                      <td>{p.platforms}</td>
-                      <td><span className={`pill ${p.status}`}>{p.status.replace('_', ' ')}</span></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+        <div className="form-grid">
+          <div className="card">
+            {!selectedCampaign.posts || selectedCampaign.posts.length === 0 ? (
+              <p className="empty-state">No posts in this campaign yet.</p>
+            ) : (
+              <div className="table-scroll">
+                <table>
+                  <thead>
+                    <tr><th>Post Caption</th><th>Platforms</th><th>Status</th></tr>
+                  </thead>
+                  <tbody>
+                    {selectedCampaign.posts.map((p) => (
+                      <tr key={p.id} onClick={() => setSelectedPost(p)} style={{ cursor: 'pointer', background: selectedPost?.id === p.id ? 'var(--primary-tint)' : 'transparent' }}>
+                        <td>{p.caption.length > 60 ? p.caption.slice(0, 60) + '…' : p.caption}</td>
+                        <td>{p.platforms}</td>
+                        <td><span className={`pill ${p.status}`}>{p.status.replace('_', ' ')}</span></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+          <div>
+            <PostPreview post={selectedPost} />
+          </div>
         </div>
       </section>
     );
