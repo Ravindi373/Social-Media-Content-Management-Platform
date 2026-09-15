@@ -37,10 +37,6 @@ services:
         sync: false
       - key: FACEBOOK_GRAPH_API_VERSION
         value: v19.0
-      - key: GEMINI_API_KEY
-        sync: false
-      - key: AI_MODEL
-        value: gemini-1.5-flash
 
 databases:
   - name: smcmp-db

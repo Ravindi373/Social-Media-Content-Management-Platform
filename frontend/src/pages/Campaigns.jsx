@@ -12,6 +12,9 @@ export default function Campaigns() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ name: '', type: TYPES[0], objective: '', start_date: '', end_date: '' });
+  
+  const [selectedCampaign, setSelectedCampaign] = useState(null);
+  const [loadingDetails, setLoadingDetails] = useState(false);
 
   function load() {
     setLoading(true);
@@ -25,6 +28,52 @@ export default function Campaigns() {
     setShowForm(false);
     setForm({ name: '', type: TYPES[0], objective: '', start_date: '', end_date: '' });
     load();
+  }
+
+  async function viewCampaign(id) {
+    setLoadingDetails(true);
+    client.get(`/campaigns/${id}`).then((res) => {
+      setSelectedCampaign(res.data);
+    }).finally(() => setLoadingDetails(false));
+  }
+
+  if (selectedCampaign) {
+    return (
+      <section>
+        <div className="page-head">
+          <h1>{selectedCampaign.name}</h1>
+          <button className="btn-sm" onClick={() => setSelectedCampaign(null)}>Back to Campaigns</button>
+        </div>
+        <div className="card" style={{ marginBottom: 20 }}>
+          <p><strong>Type:</strong> {selectedCampaign.type}</p>
+          <p><strong>Objective:</strong> {selectedCampaign.objective}</p>
+          <p><strong>Dates:</strong> {selectedCampaign.start_date} – {selectedCampaign.end_date}</p>
+        </div>
+        <div className="section-title">Posts in this campaign</div>
+        <div className="card">
+          {!selectedCampaign.posts || selectedCampaign.posts.length === 0 ? (
+            <p className="empty-state">No posts in this campaign yet.</p>
+          ) : (
+            <div className="table-scroll">
+              <table>
+                <thead>
+                  <tr><th>Post Caption</th><th>Platforms</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                  {selectedCampaign.posts.map((p) => (
+                    <tr key={p.id}>
+                      <td>{p.caption.length > 60 ? p.caption.slice(0, 60) + '…' : p.caption}</td>
+                      <td>{p.platforms}</td>
+                      <td><span className={`pill ${p.status}`}>{p.status.replace('_', ' ')}</span></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </section>
+    );
   }
 
   return (
@@ -63,7 +112,7 @@ export default function Campaigns() {
         </form>
       )}
 
-      {loading ? (
+      {loading || loadingDetails ? (
         <p className="loading">Loading…</p>
       ) : (
         <div className="grid cols-3">
@@ -71,9 +120,10 @@ export default function Campaigns() {
             <div className="card" key={c.id}>
               <div className="section-title" style={{ marginTop: 0 }}>{c.name}</div>
               <p style={{ color: 'var(--muted)', margin: '0 0 10px' }}>{c.objective}</p>
-              <div style={{ fontSize: 12, color: 'var(--muted)' }}>
+              <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 15 }}>
                 {c.posts?.length || 0} posts &middot; {c.start_date} – {c.end_date}
               </div>
+              <button className="btn-sm" onClick={() => viewCampaign(c.id)}>View Posts</button>
             </div>
           ))}
         </div>
