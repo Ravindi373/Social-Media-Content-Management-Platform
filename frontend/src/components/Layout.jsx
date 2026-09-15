@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { Menu, X } from 'lucide-react';
 
 // Sidebar links, each tagged with the roles allowed to see it —
 // mirrors the permissions matrix in the system design doc.
@@ -28,7 +29,7 @@ export default function Layout() {
     <div className="app-shell">
       {/* Mobile-only top bar with hamburger — hidden at desktop widths via CSS */}
       <div className="mobile-topbar">
-        <button className="hamburger" onClick={() => setNavOpen(true)} aria-label="Open menu">☰</button>
+        <button className="hamburger" onClick={() => setNavOpen(true)} aria-label="Open menu"><Menu size={22} /></button>
         <div className="brand-mark"><span className="dot" /><span>SERENE BAY</span></div>
         <div className="spacer" />
       </div>
@@ -37,7 +38,7 @@ export default function Layout() {
       <div className={`nav-backdrop ${navOpen ? 'open' : ''}`} onClick={closeNav} />
 
       <aside className={navOpen ? 'open' : ''}>
-        <button className="close-btn" onClick={closeNav} aria-label="Close menu">✕</button>
+        <button className="close-btn" onClick={closeNav} aria-label="Close menu"><X size={20} /></button>
         <div className="brand-mark"><span className="dot" /><span>SERENE BAY</span></div>
         <div className="role-switch">
           <label>Signed in as</label>

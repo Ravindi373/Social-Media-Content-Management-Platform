@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import client from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { Heart, MessageCircle, Send } from 'lucide-react';
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -82,9 +83,9 @@ export default function Dashboard() {
               </div>
               <div style={{ padding: 12, fontSize: 13 }}>
                 <div style={{ display: 'flex', gap: 12, marginBottom: 8 }}>
-                   <span style={{ fontSize: 18 }}>❤️</span>
-                   <span style={{ fontSize: 18 }}>💬</span>
-                   <span style={{ fontSize: 18 }}>↗️</span>
+                   <Heart size={20} />
+                   <MessageCircle size={20} />
+                   <Send size={20} />
                 </div>
                 <b>serenebayresort</b> {selectedPost.caption}
               </div>
