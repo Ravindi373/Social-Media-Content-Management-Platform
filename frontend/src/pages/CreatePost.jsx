@@ -90,7 +90,7 @@ export default function CreatePost() {
         <div className="section-title" style={{ marginTop: 0 }}>
           Generate with AI
           <span style={{ float: 'right', fontWeight: 'normal' }}>
-            {aiConfigured ? 'Connected to HuggingFace GPT-2' : 'Simulated (no API key configured)'}
+            {aiConfigured ? 'Connected to HuggingFace SmolLM2' : 'Simulated (no API key configured)'}
           </span>
         </div>
         <div className="row-flex" style={{ alignItems: 'flex-start' }}>
@@ -114,7 +114,7 @@ export default function CreatePost() {
               ? aiResult.message
               : aiResult.simulated
                 ? 'Filled in below with a simulated caption.'
-                : 'Filled in below using HuggingFace GPT-2 — feel free to edit before saving.'}
+                : 'Filled in below using HuggingFace SmolLM2 — feel free to edit before saving.'}
           </p>
         )}
       </div>
@@ -122,15 +122,15 @@ export default function CreatePost() {
       <div className="form-grid">
         <div className="card">
           <div className="section-title" style={{ marginTop: 0 }}>Caption</div>
-          <textarea rows={4} value={caption} onChange={(e) => setCaption(e.target.value)}
+          <textarea rows={4} style={{ width: '100%' }} value={caption} onChange={(e) => setCaption(e.target.value)}
             placeholder="Sunday brunch just got better — our new seafood spread is live from 12pm." />
 
           <div className="section-title">Image</div>
-          <input type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}
+          <input type="text" style={{ width: '100%' }} value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}
             placeholder="Image filename or URL (upload wiring is a stretch goal)" />
 
           <div className="section-title">Hashtags</div>
-          <input type="text" value={hashtags} onChange={(e) => setHashtags(e.target.value)}
+          <input type="text" style={{ width: '100%' }} value={hashtags} onChange={(e) => setHashtags(e.target.value)}
             placeholder="#SereneBay,#SundayBrunch,#OceanDining" />
         </div>
 
@@ -144,7 +144,7 @@ export default function CreatePost() {
           ))}
 
           <div className="section-title">Campaign</div>
-          <select value={campaignId} onChange={(e) => setCampaignId(e.target.value)}>
+          <select style={{ width: '100%' }} value={campaignId} onChange={(e) => setCampaignId(e.target.value)}>
             <option value="">No campaign</option>
             {campaigns.map((c) => (
               <option key={c.id} value={c.id}>{c.name}</option>

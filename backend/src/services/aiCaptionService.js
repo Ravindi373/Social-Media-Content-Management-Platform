@@ -1,6 +1,6 @@
 // AI-assisted caption and hashtag generation using @huggingface/transformers
 //
-// We use the Xenova/gpt2 model running locally.
+// We use the SmolLM2-1.7B-Instruct model running locally.
 // Because it's a local model, we don't need an API key anymore.
 
 let generator = null;
@@ -8,7 +8,7 @@ let generator = null;
 async function getGenerator() {
   if (!generator) {
     const { pipeline } = await import('@huggingface/transformers');
-    generator = await pipeline('text-generation', 'Xenova/gpt2');
+    generator = await pipeline('text-generation', 'HuggingFaceTB/SmolLM2-1.7B-Instruct');
   }
   return generator;
 }
@@ -51,24 +51,16 @@ async function generateCaption({ topic, platform, tone }) {
     return simulateCaption({ topic, platform, tone });
   }
 
-  const prompt = `Think as a content creator and write a short, ${tone || 'warm'} social media caption for ${platform || 'Instagram'} about: ${topic}.\n\nCaption:`;
+  const messages = [
+    { role: "system", content: "You are a content creator for a boutique hotel and restaurant called Serene Bay Resort & Kitchen." },
+    { role: "user", content: `Write a short, ${tone || 'warm'} social media caption for ${platform || 'Instagram'} about: ${topic}. Please respond only with the caption text, no quotes or additional conversational text.` }
+  ];
 
   try {
     const gen = await getGenerator();
-    const result = await gen(prompt, {
-      max_new_tokens: 30,
-      do_sample: true,
-      top_k: 5,
-    });
-    console.log(result);
+    const result = await gen(messages, { max_new_tokens: 128 });
 
-
-    let generatedText = result[0].generated_text;
-
-    // Clean up the output. GPT-2 tends to repeat the prompt.
-    if (generatedText.startsWith(prompt)) {
-      generatedText = generatedText.slice(prompt.length).trim();
-    }
+    let generatedText = result[0].generated_text.at(-1).content.trim();
 
     // Fallback if the model generates nothing useful
     if (!generatedText) {
