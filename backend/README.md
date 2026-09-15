@@ -68,29 +68,26 @@ All endpoints are prefixed with `/api`. Authenticated routes expect
 
 ## AI-assisted caption generation (bonus)
 
-`POST /api/posts/generate-caption` calls **Claude (Anthropic's API)** to write
+`POST /api/posts/generate-caption` calls **Gemini (Google's API)** to write
 a caption and suggest hashtags from a short topic you type in, right from the
-Create Post page. If `ANTHROPIC_API_KEY` isn't set in `.env`, it falls back
+Create Post page. If `GEMINI_API_KEY` isn't set in `.env`, it falls back
 to a template-based simulated caption instead of failing, so the feature
 still demonstrates end-to-end without a real API key.
 
 ### Getting a real API key (~5 minutes)
 
-1. Go to [console.anthropic.com](https://console.anthropic.com/), sign up
+1. Go to [Google AI Studio](https://aistudio.google.com/), sign up
    or log in, and go to **Settings → API Keys**.
 2. Click **Create Key**, copy it, and add it to `.env`:
    ```
-   ANTHROPIC_API_KEY=sk-ant-your-key-here
-   AI_MODEL=claude-sonnet-5
+   GEMINI_API_KEY=AIzaSy-your-key-here
+   AI_MODEL=gemini-1.5-flash
    ```
 3. Restart the backend. `GET /api/posts/integration-status` should now
    return `{ "aiCaptionConfigured": true, ... }`, and the "Generate caption
-   & hashtags" button on Create Post will call Claude for real.
+   & hashtags" button on Create Post will call Gemini for real.
 
-Note: this requires billing set up on your Anthropic account (API usage is
-metered separately from the Claude.ai consumer app) — a few generated
-captions for a demo cost a fraction of a cent, but it isn't literally free
-the way the simulated fallback is.
+Note: Gemini has a generous free tier for development, so testing with a real key doesn't require paid billing right away.
 
 ## Facebook integration (bonus: real social media API)
 

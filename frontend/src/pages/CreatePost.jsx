@@ -90,7 +90,7 @@ export default function CreatePost() {
         <div className="section-title" style={{ marginTop: 0 }}>
           Generate with AI
           <span style={{ float: 'right', fontWeight: 'normal' }}>
-            {aiConfigured ? '🟢 Connected to Claude' : '🟡 Simulated (no API key configured)'}
+            {aiConfigured ? 'Connected to HuggingFace GPT-2' : 'Simulated (no API key configured)'}
           </span>
         </div>
         <div className="row-flex" style={{ alignItems: 'flex-start' }}>
@@ -113,8 +113,8 @@ export default function CreatePost() {
             {aiResult.error
               ? aiResult.message
               : aiResult.simulated
-                ? 'Filled in below with a simulated caption — set ANTHROPIC_API_KEY in the backend .env for real AI generation.'
-                : 'Filled in below using Claude — feel free to edit before saving.'}
+                ? 'Filled in below with a simulated caption.'
+                : 'Filled in below using HuggingFace GPT-2 — feel free to edit before saving.'}
           </p>
         )}
       </div>

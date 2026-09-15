@@ -1,14 +1,21 @@
-// AI-assisted caption and hashtag generation using the Anthropic API.
+// AI-assisted caption and hashtag generation using @huggingface/transformers
 //
-// Real mode: set ANTHROPIC_API_KEY in .env and this calls Claude directly.
-// Simulated mode: if it's missing, generateCaption() builds a template-based
-// caption instead of failing, so the feature still demonstrates end-to-end
-// for anyone grading without their own API key.
+// We use the Xenova/gpt2 model running locally.
+// Because it's a local model, we don't need an API key anymore.
 
-const MODEL = process.env.AI_MODEL || 'claude-sonnet-5';
+let generator = null;
+
+async function getGenerator() {
+  if (!generator) {
+    const { pipeline } = await import('@huggingface/transformers');
+    generator = await pipeline('text-generation', 'Xenova/gpt2');
+  }
+  return generator;
+}
 
 function isConfigured() {
-  return Boolean(process.env.ANTHROPIC_API_KEY);
+  // Local model is always configured (it downloads on first run)
+  return true;
 }
 
 function simulateCaption({ topic, platform, tone }) {
@@ -39,54 +46,46 @@ async function generateCaption({ topic, platform, tone }) {
     throw new Error('topic is required');
   }
 
+  // We are always configured, but keep the interface
   if (!isConfigured()) {
     return simulateCaption({ topic, platform, tone });
   }
 
-  const prompt = `You are writing a social media post for a boutique hotel and restaurant
-called Serene Bay Resort & Kitchen. Write one short, ${tone || 'warm and inviting'} caption
-(1-3 sentences, no emoji overload, no hashtags in the caption text itself) for ${platform || 'Instagram'}
-about: ${topic}.
+  const prompt = `Think as a content creator and write a short, ${tone || 'warm'} social media caption for ${platform || 'Instagram'} about: ${topic}.\n\nCaption:`;
 
-Then suggest 4-6 relevant hashtags, always including #SereneBay.
-
-Respond with ONLY valid JSON in this exact shape, no markdown fences, no extra text:
-{"caption": "...", "hashtags": ["#SereneBay", "..."]}`;
-
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      'x-api-key': process.env.ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model: MODEL,
-      max_tokens: 300,
-      messages: [{ role: 'user', content: prompt }],
-    }),
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    const message = data?.error?.message || 'Unknown Anthropic API error';
-    const err = new Error(`Anthropic API error: ${message}`);
-    err.apiError = data?.error;
-    throw err;
-  }
-
-  const rawText = data.content?.find((block) => block.type === 'text')?.text || '';
-  const cleaned = rawText.replace(/```json|```/g, '').trim();
-
-  let parsed;
   try {
-    parsed = JSON.parse(cleaned);
-  } catch (parseErr) {
-    throw new Error('Could not parse AI response as JSON: ' + rawText.slice(0, 200));
-  }
+    const gen = await getGenerator();
+    const result = await gen(prompt, {
+      max_new_tokens: 30,
+      do_sample: true,
+      top_k: 5,
+    });
+    console.log(result);
 
-  return { caption: parsed.caption, hashtags: parsed.hashtags || [], simulated: false };
+
+    let generatedText = result[0].generated_text;
+
+    // Clean up the output. GPT-2 tends to repeat the prompt.
+    if (generatedText.startsWith(prompt)) {
+      generatedText = generatedText.slice(prompt.length).trim();
+    }
+
+    // Fallback if the model generates nothing useful
+    if (!generatedText) {
+      generatedText = `Check out this amazing ${topic} at Serene Bay!`;
+    }
+
+    // Extract hashtags from topic for a basic list
+    const baseHashtags = ['#SereneBay'];
+    const topicWords = (topic || '').split(/\s+/).filter((w) => w.length > 3).slice(0, 2).map((w) => `#${w.replace(/[^a-zA-Z0-9]/g, '')}`);
+    const hashtags = [...baseHashtags, ...topicWords].filter(Boolean);
+
+    return { caption: generatedText, hashtags, simulated: false };
+  } catch (err) {
+    console.error('Transformers API error:', err);
+    // Fallback to simulated if the local model fails
+    return simulateCaption({ topic, platform, tone });
+  }
 }
 
 module.exports = { isConfigured, generateCaption };
