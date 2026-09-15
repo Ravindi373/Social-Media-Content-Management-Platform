@@ -32,6 +32,10 @@ Analytics.belongsTo(Post, { foreignKey: 'post_id', as: 'post' });
 Post.hasMany(ConsentLog, { foreignKey: 'post_id', as: 'consentLogs' });
 ConsentLog.belongsTo(Post, { foreignKey: 'post_id', as: 'post' });
 
+// User 1:N ConsentLog
+User.hasMany(ConsentLog, { foreignKey: 'last_edited_by', as: 'editedConsentLogs' });
+ConsentLog.belongsTo(User, { foreignKey: 'last_edited_by', as: 'editor' });
+
 module.exports = {
   sequelize,
   User,

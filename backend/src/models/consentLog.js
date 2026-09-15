@@ -7,6 +7,7 @@ const ConsentLog = sequelize.define('ConsentLog', {
   guest_name: { type: DataTypes.STRING, allowNull: true },
   consent_given: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
   date: { type: DataTypes.DATEONLY, allowNull: false, defaultValue: DataTypes.NOW },
+  last_edited_by: { type: DataTypes.INTEGER, allowNull: true },
 }, {
   tableName: 'consent_logs',
   timestamps: true,
