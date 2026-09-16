@@ -1,7 +1,6 @@
 # SMCMP — Social Media Content Management Platform
 
 **Client:** Serene Bay Resort & Kitchen (boutique hotel with an in-house restaurant)
-CCS4360 – Techniques in Social Media
 
 A full-stack platform for planning, drafting, reviewing, and publishing social media content across two brand streams — hotel (rooms, packages, events) and restaurant (dishes, promotions, chef specials) — with role-based access control and a real content approval workflow.
 
