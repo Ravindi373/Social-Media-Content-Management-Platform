@@ -89,8 +89,8 @@ Each review is stored as its own **Approval** record, preserving a full revision
 ```bash
 cd backend
 npm install
-cp .env.example .env     # fill in your MySQL credentials + a JWT secret
-npm run seed              # creates tables and loads sample data
+cp .env.example .env       # fill in your MySQL credentials + a JWT secret
+npm run seed               # creates tables and loads sample data
 npm run dev                # runs on http://localhost:5000
 ```
 
@@ -99,7 +99,7 @@ npm run dev                # runs on http://localhost:5000
 ```bash
 cd frontend
 npm install
-cp .env.example .env     # defaults to http://localhost:5000/api, adjust if needed
+cp .env.example .env       # defaults to http://localhost:5000/api, adjust if needed
 npm run dev                # runs on http://localhost:5173
 ```
 
@@ -121,42 +121,42 @@ All accounts use the password `Password123!`.
 smcmp/
   backend/
     src/
-      config/database.js     Sequelize connection (switches MySQL / PostgreSQL / SQLite)
-      models/                 One file per ERD entity + index.js wiring associations
-      middleware/auth.js       JWT verification
-      middleware/role.js       Role-based access guard
-      controllers/             Business logic per resource
-      routes/                  Express routers, mounted under /api
-      seeders/seed.js          Sample dataset (users, posts, campaigns, approvals, analytics, consent logs)
-      app.js                   Express app + middleware
-      server.js                DB connection, sync, and server start
+      config/database.js           Sequelize connection (switches MySQL / PostgreSQL / SQLite)
+      models/                      One file per ERD entity + index.js wiring associations
+      middleware/auth.js           JWT verification
+      middleware/role.js           Role-based access guard
+      controllers/                 Business logic per resource
+      routes/                      Express routers, mounted under /api
+      seeders/seed.js              Sample dataset (users, posts, campaigns, approvals, analytics, consent logs)
+      app.js                       Express app + middleware
+      server.js                    DB connection, sync, and server start
   frontend/
     src/
-      api/client.js            Axios instance with JWT attached to every request
-      context/AuthContext.jsx  Login state, persisted to localStorage
+      api/client.js                 Axios instance with JWT attached to every request
+      context/AuthContext.jsx       Login state, persisted to localStorage
       components/
-        Layout.jsx              Sidebar + role-filtered nav + page outlet
-        ProtectedRoute.jsx       Redirects to /login if not authenticated
-        RoleRoute.jsx            Redirects to /dashboard if role isn't allowed
+        Layout.jsx                  Sidebar + role-filtered nav + page outlet
+        ProtectedRoute.jsx          Redirects to /login if not authenticated
+        RoleRoute.jsx               Redirects to /dashboard if role isn't allowed
       pages/
         Login.jsx
         Dashboard.jsx
-        CreatePost.jsx           Admin, Content Creator
-        Calendar.jsx             Admin, Content Creator
-        Approvals.jsx            Admin, Content Approver
-        Campaigns.jsx            All roles view; Admin/Creator create; Admin edits
-        Analytics.jsx            All roles
-        Strategy.jsx             All roles (static reference content)
-        Privacy.jsx               All roles
-        Users.jsx                 Administrator only
-      App.jsx                   Route tree, wraps role-gated routes in RoleRoute
-      index.css                 Shared design tokens (same palette as the wireframes)
+        CreatePost.jsx              Admin, Content Creator
+        Calendar.jsx                Admin, Content Creator
+        Approvals.jsx               Admin, Content Approver
+        Campaigns.jsx               All roles view; Admin/Creator create; Admin edits
+        Analytics.jsx               All roles
+        Strategy.jsx                All roles (static reference content)
+        Privacy.jsx                 All roles
+        Users.jsx                   Administrator only
+      App.jsx                       Route tree, wraps role-gated routes in RoleRoute
+      index.css                     Shared design tokens (same palette as the wireframes)
   docs/
-    SMCMP_System_Design.md     ERD, role permissions matrix, page list, approval workflow
-    SMCMP_Wireframes.html      Clickable wireframe prototype of all 10 pages
-  render.yaml                  Render Blueprint for backend + PostgreSQL
-  DEPLOYMENT.md                 Step-by-step deployment guide (Render + Vercel)
-  .github/                      CI workflow (runs both test suites on every push)
+    SMCMP_System_Design.md           ERD, role permissions matrix, page list, approval workflow
+    SMCMP_Wireframes.html            Clickable wireframe prototype of all 10 pages
+  render.yaml                        Render Blueprint for backend + PostgreSQL
+  DEPLOYMENT.md                      Step-by-step deployment guide (Render + Vercel)
+  .github/                           CI workflow (runs both test suites on every push)
 ```
 
 ## API Overview
